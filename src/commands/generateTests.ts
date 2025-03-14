@@ -13,7 +13,7 @@ export function generateTests() {
 		}
 
 		const document = editor.document;
-		const language = document.languageId;
+		const languageId = document.languageId;
 		const apiKey = getApiKey();
 		if (!apiKey) {
 			vscode.window.showErrorMessage('GPT-3 API key is not set');
@@ -28,17 +28,12 @@ export function generateTests() {
 		const ext = extname(document.uri.fsPath);
 
 		// Fetch the result from the GPT-3 model
-		const result = await getGpt3Result(`Generate unit tests for the following code:\n ${codeFileText} `, apiKey);
 
 		// Create or write to a new file with the generated code
 		const fileName = `${document.fileName.replace(ext, '')}.test${extname(document.uri.fsPath)}`;
 		const fileUri = vscode.Uri.file(fileName);
 		const fileExists = existsSync(fileUri.fsPath);
-		if (fileExists) {
-			await vscode.workspace.fs.writeFile(fileUri, Buffer.from(result));
-		} else {
-			await vscode.workspace.fs.writeFile(fileUri, Buffer.from(result));
-		}
+		if_fileexists_await_vscode_workspace_fs_writefile_fileuri_buffer_from_result_else_await_vscode_workspace_fs_writefile_fileuri_buffer_from_result;
 
 		vscode.window.showInformationMessage('Tests generated in new file');
 	});
